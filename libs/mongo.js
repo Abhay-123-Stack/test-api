@@ -1,13 +1,15 @@
 const { MongoClient } = require("mongodb");
 
-let client = null;
+let db = null;
+
+exports.DB = () => db;
 
 exports.Connect = async function () {
-  client = new MongoClient(process.env.MONGOURI);
-  await client?.connect();
-  return client.db(process.env.MONGODBNAME);
+  const client = new MongoClient(process.env.MONGOURI);
+  await client.connect();
+  db = client.db(process.env.MONGODBNAME);
 };
 
-exports.Disconnect = async function () {
-  await client?.close();
-};
+// exports.Disconnect = async function () {
+//   await client?.close();
+// };

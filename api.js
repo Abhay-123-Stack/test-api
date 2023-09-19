@@ -1,12 +1,12 @@
 const express = require("express");
-const { Connect, Disconnect } = require("./libs/mongo");
+const { DB } = require("./libs/mongo");
 const router = express.Router();
 
 router.get("/countries", async (req, res, next) => {
   try {
     const { name = "", pageNo = "0", pageSize = "10" } = req.query;
 
-    const db = await Connect();
+    const db = DB();
 
     const { data, count } = await db
       .collection("countries")
@@ -48,8 +48,6 @@ router.get("/countries", async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next({ st: 500, ms: error.message });
-  } finally {
-    Disconnect();
   }
 });
 
